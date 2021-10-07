@@ -18,13 +18,13 @@ import forward
 # (100,)
 
 conv1_w = sfix.Tensor((16, 12, 2))
-conv1_b = sfix.Tensor((16))
+conv1_b = sfix.Tensor((16,))
 
 conv2_w = sfix.Tensor((128, 16, 8))
-conv2_b = sfix.Tensor((128))
+conv2_b = sfix.Tensor((128,))
 
 dense1_w = sfix.Tensor((100, 256))
-dense1_b = sfix.Tensor((100))
+dense1_b = sfix.Tensor((100,))
 
 conv1_w.assign(0)
 conv1_b.assign(0)
