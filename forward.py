@@ -113,7 +113,7 @@ class Conv1D(Layer):
         output = sfix.Tensor(output_width, self.filters)
 
         @for_range_opt(output_width, self.filters)
-        def _(i, j)
+        def _(i, j):
             output[i] = np.dot(input[i:k_width + i], kernels[j])
 
         return output
