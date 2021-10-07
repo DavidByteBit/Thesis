@@ -5,6 +5,8 @@ from Compiler.mpc_math import sqrt
 from Compiler.types import *
 from Compiler.library import *
 
+from Compiler import forward
+
 import forward
 
 
