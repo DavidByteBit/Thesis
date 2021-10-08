@@ -43,8 +43,8 @@ class Layer:
 
 class Dense(Layer):
 
-    def __init__(self, input_shape, output_shape, w, b, activation):
-        super(Dense, self).__init__(input_shape, output_shape)
+    def __init__(self, input_shape, output_shape, w, b, activation, flatten_after=False):
+        super(Dense, self).__init__(input_shape, output_shape, flatten_after)
 
         # TODO should be shape, but Arrays have no shape...
         self.w_shape = len(w)
@@ -76,8 +76,8 @@ class Dense(Layer):
 
 class MaxPooling1D(Layer):
 
-    def __init__(self, input_shape, output_shape, width, filter_dim):
-        super(MaxPooling1D, self).__init__(input_shape, output_shape)
+    def __init__(self, input_shape, output_shape, width, filter_dim, flatten_after=False):
+        super(MaxPooling1D, self).__init__(input_shape, output_shape, flatten_after)
         self.width = width
         self.filter_dim = filter_dim
         # TODO: padding, stride
@@ -114,8 +114,8 @@ class MaxPooling1D(Layer):
 
 class Conv1D(Layer):
 
-    def __init__(self, input_shape, output_shape, kernels, kernel_bias, stride=None):
-        super(Conv1D, self).__init__(input_shape, output_shape)
+    def __init__(self, input_shape, output_shape, kernels, kernel_bias, stride=None, flatten_after=False):
+        super(Conv1D, self).__init__(input_shape, output_shape, flatten_after)
         self.kernel_bias = kernel_bias
         self.kernels = kernels  # multi dimensioned because of multiple filters
         self.filters = len(kernels)  # size
