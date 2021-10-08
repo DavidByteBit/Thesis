@@ -125,7 +125,7 @@ class Conv1D(Layer):
         kernels_bias = self.kernel_bias
         k_width = self.kernel_w
         output_width = len(input) - k_width + 1
-        output = sfix.Tensor(output_width, self.filters)
+        output = sfix.Tensor((output_width, self.filters))
 
         @for_range_opt(output_width, self.filters)
         def _(i, j):
