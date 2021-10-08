@@ -41,13 +41,13 @@ def _(i):
 def _(i):
     conv1_b[i] = sfix.get_input_from(0)
 
-@for_range(128*16*8)
-def _(i):
-    conv2_w[i][i//128][i//128*16] = sfix.get_input_from(0)
-
-@for_range(128)
-def _(i):
-    conv2_b[i] = sfix.get_input_from(0)
+# @for_range(128*16*8)
+# def _(i):
+#     conv2_w[i][i//128][i//128*16] = sfix.get_input_from(0)
+#
+# @for_range(128)
+# def _(i):
+#     conv2_b[i] = sfix.get_input_from(0)
 
 # @for_range(100*256)
 # def _(i):
