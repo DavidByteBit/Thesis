@@ -98,7 +98,7 @@ class MaxPooling1D(Layer):
 
         output = sfix.Tensor((output_width, filter_dim))
 
-        @for_range_opt(output_width//2, filter_dim)
+        @for_range_opt([output_width//2, filter_dim])
         def _(i, j):
             # TODO currently, for Tensors where the width does not divide the input dim properly,
             #  we ignore values fix this
