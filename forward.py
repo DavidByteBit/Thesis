@@ -129,7 +129,10 @@ class Conv1D(Layer):
 
         @for_range_opt((output_width, self.filters))
         def _(i, j):
-            output[i] = np.dot(input[i:k_width + i], kernels[j]) + kernels_bias[j]
+            print(i)
+            print(k_width)
+            val = input[i:k_width + i]
+            output[i] = np.dot(val, kernels[j]) + kernels_bias[j]
 
         return output
 
