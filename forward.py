@@ -110,7 +110,7 @@ class MaxPooling1D(Layer):
             def _(k):
                 val[k] = input[i][i * width + k]
 
-            output[j][i] = sfix.max(val)
+            output[j][i] = max(val)
 
         return output
 
@@ -152,6 +152,19 @@ class Conv1D(Layer):
         print(output)
 
         return output
+
+
+# TODO optimize
+def max(x):
+    max_value = sfix.Array(1)
+    max_value[0] = x[0]
+    @for_range(len(x) - 1)
+    def _(i):
+        cmp = max_value[0] > x[i + 1]
+        max_value[0] = cmp * max_value[0] + (1 - cmp) * x[i + 1]
+
+    return max_value[0]
+
 
 
 def transpose(x, shape):
