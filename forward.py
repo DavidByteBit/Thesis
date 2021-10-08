@@ -57,6 +57,7 @@ class Dense(Layer):
         self.activation = activation
 
     def compute(self, input):
+        print(input)
 
         # TODO currently assumes 1d input/output
         w = self.w
@@ -88,6 +89,8 @@ class MaxPooling1D(Layer):
         # TODO: padding, stride
 
     def compute(self, input):
+
+        print(input)
 
         # input_T = transpose(input, (self.input_shape[1], self.input_shape[0]))
 
@@ -135,6 +138,8 @@ class Conv1D(Layer):
 
 
     def compute(self, input):
+        print(input)
+
         kernels = self.kernels
         kernels_bias = self.kernel_bias
         k_width = self.kernel_w
