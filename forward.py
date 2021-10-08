@@ -134,6 +134,7 @@ class Conv1D(Layer):
             @for_range_opt(k_width)
             def _(k):
                 val[k] = input[i + k]
+            print(kernels[j])
             output[i] = sfix.dot_product(val, kernels[j]) + kernels_bias[j]
 
         return output
