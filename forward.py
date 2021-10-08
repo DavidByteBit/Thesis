@@ -91,20 +91,23 @@ class MaxPooling1D(Layer):
 
         input_T = transpose(input, (self.input_shape[1], self.input_shape[0]))
 
+        print_ln("Checkpoint 1")
+
         width = self.width
         filter_dim = self.filter_dim
         output_width = len(input) // width
 
+        print_ln("Checkpoint 2")
+
         assert output_width, filter_dim == self.output_shape
 
+        print_ln("Checkpoint 3")
         output = sfix.Tensor((output_width, filter_dim))
-
+        print_ln("Checkpoint 4")
         @for_range_opt([filter_dim, output_width//2])
         def _(i, j):
             # TODO currently, for Tensors where the width does not divide the input dim properly,
             #  we ignore values fix this
-            print_ln("%s", i)
-            print_ln("%s", j)
             val = sfix.Array(width)
             @for_range_opt(width)
             def _(k):
