@@ -67,8 +67,8 @@ class Dense(Layer):
         def _(i):
 
             test1 = output[i]
-            test2 = self.w[i]
-            test3 = self.b[i]
+            test2 = w[i]
+            test3 = b[i]
 
             output[i] = self.activation(dot_2d(input, self.w[i]) + self.b[i])
 

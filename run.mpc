@@ -94,18 +94,18 @@ max2 = forward.MaxPooling1D(conv1_input_shape, conv1_output_shape, 8, 128, flatt
 
 dense1_input = max_pooling2_output_shape
 dense1_output = 256
-# dense1 = forward.Dense(dense1_input, dense1_output, dense1_w, dense1_b, relu)
+dense1 = forward.Dense(dense1_input, dense1_output, dense1_w, dense1_b, relu)
 
-dense2_input = dense1_output
-dense2_output = 100
-dense2 = forward.Dense(dense2_input, dense2_output, [0], [0], relu)
+# dense2_input = dense1_output
+# dense2_output = 100
+# dense2 = forward.Dense(dense2_input, dense2_output, [0], [0], relu)
 
 layers.add_layer(conv1)
 layers.add_layer(max1)
 layers.add_layer(conv2)
 layers.add_layer(max2)
-# layers.add_layer(dense1)
-layers.add_layer(dense2)
+layers.add_layer(dense1)
+# layers.add_layer(dense2)
 
 input = sfix.Tensor((50,12)).assign_all(0)
 
