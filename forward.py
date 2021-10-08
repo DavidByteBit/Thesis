@@ -90,6 +90,8 @@ class MaxPooling1D(Layer):
 
     def compute(self, input):
 
+        input_T = transpose(input, (self.input_shape[1], self.input_shape[0]))
+
         width = self.width
         filter_dim = self.filter_dim
         output_width = len(input) // width
@@ -102,6 +104,12 @@ class MaxPooling1D(Layer):
         def _(i, j):
             # TODO currently, for Tensors where the width does not divide the input dim properly,
             #  we ignore values fix this
+
+            val = sfix.Array(width)
+            @for_range_opt(width)
+            def _(k):
+                val[k] = input[i * width + k]
+
             output[i][j] = sfix.max(input[i * width:(i + 1) * width][j])
 
         return output
@@ -137,6 +145,12 @@ class Conv1D(Layer):
             output[i] = dot_2d(val, kernels[j]) + kernels_bias[j]
 
         return output
+
+
+def transpose(x, shape):
+    x_T = sfix.Tensor(shape)
+    x_T.assign_all(x)
+    return x_T
 
 
 def dot_2d(x,y):
