@@ -100,7 +100,7 @@ class MaxPooling1D(Layer):
 
         assert output_width, filter_dim == self.output_shape
 
-        output = sfix.Tensor((output_width//2, filter_dim))
+        output = sfix.Tensor((output_width, filter_dim))
 
         @for_range_opt([filter_dim, output_width//2])
         def _(i, j):
