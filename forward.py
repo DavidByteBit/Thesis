@@ -129,7 +129,8 @@ class Conv1D(Layer):
 
         @for_range_opt((output_width, self.filters))
         def _(i, j):
-            val = sfix.Array(k_width)
+            print(self.filters)
+            val = sfix.Matrix(k_width, self.filters)
             @for_range_opt(k_width)
             def _(k):
                 val[k] = input[i + k]
