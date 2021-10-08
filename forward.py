@@ -66,10 +66,6 @@ class Dense(Layer):
         @for_range_opt(self.w_shape)
         def _(i):
 
-            test1 = output[i]
-            test2 = w[i]
-            test3 = b[i]
-
             output[i] = self.activation(dot_2d(input, self.w[i]) + self.b[i])
 
         print("dense")
@@ -180,6 +176,8 @@ def flatten(x):
     @for_range_opt((w, h))
     def _(i,j):
         new_array[i * h + j] = x[i][j]
+
+    return new_array
 
 
 def transpose(x, shape):
