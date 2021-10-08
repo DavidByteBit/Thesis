@@ -103,7 +103,8 @@ class MaxPooling1D(Layer):
         def _(i, j):
             # TODO currently, for Tensors where the width does not divide the input dim properly,
             #  we ignore values fix this
-
+            print_ln("%s", i)
+            print_ln("%s", j)
             val = sfix.Array(width)
             @for_range_opt(width)
             def _(k):
