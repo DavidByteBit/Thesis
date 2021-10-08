@@ -61,7 +61,7 @@ class Dense(Layer):
         w = self.w
         b = self.b
 
-        output = sfix.Tensor(self.output_shape)
+        output = sfix.Array(self.output_shape)
 
         @for_range_opt(len(self.w_shape))
         def _(i):
