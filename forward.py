@@ -65,7 +65,7 @@ class Dense(Layer):
 
         @for_range_opt(self.w_shape)
         def _(i):
-            output[i] = self.activation(np.dot(input, self.w[i]) + self.b[i])
+            output[i] = self.activation(dot_2d(input, self.w[i]) + self.b[i])
 
         print("dense")
 
