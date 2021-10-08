@@ -156,8 +156,12 @@ class Conv1D(Layer):
 
 def transpose(x, shape):
     x_T = sfix.Tensor(shape)
-    x_T.assign_all(x)
-    return x_T
+
+    @for_range(shape[0])
+    def _(i):
+        @for_range(shape[1])
+        def _(j):
+            x_T[i][j] = x[j][i]
 
 
 def dot_2d(x,y):
