@@ -144,6 +144,8 @@ class Conv1D(Layer):
             print(kernels[j])
             output[i] = dot_2d(val, kernels[j]) + kernels_bias[j]
 
+        print(output)
+
         return output
 
 
