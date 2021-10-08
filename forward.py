@@ -143,9 +143,9 @@ class Conv1D(Layer):
             val = sfix.Matrix(k_width, self.kernel_w)
             @for_range_opt(k_width)
             def _(k):
-                print("line 146")
-                print(input[i + k])
-                val[k] = input[i + k]
+                @for_range_opt(self.kernel_h)
+                def _(e):
+                    val[k][e] = input[i + k][e]
             print(kernels[j])
             output[i] = dot_2d(val, kernels[j]) + kernels_bias[j]
 
