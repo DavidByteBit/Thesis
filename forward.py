@@ -65,6 +65,11 @@ class Dense(Layer):
 
         @for_range_opt(self.w_shape)
         def _(i):
+
+            test1 = output[i]
+            test2 = self.w[i]
+            test3 = self.b[i]
+
             output[i] = self.activation(dot_2d(input, self.w[i]) + self.b[i])
 
         print("dense")
@@ -185,6 +190,17 @@ def transpose(x, shape):
         @for_range(shape[1])
         def _(j):
             x_T[i][j] = x[j][i]
+
+
+def dot_1d(x,y):
+    res = sfix.Array(1)
+    res[0] = sfix(0)
+
+    @for_range(len(x))
+    def _(i):
+        res[0] += x[i] * y[i]
+
+    return res[0]
 
 
 def dot_2d(x,y):
