@@ -78,7 +78,7 @@ layers = forward.Layers()
 conv1_input_shape = (50,12)
 conv1_output_shape = (49, 16)
 conv1 = forward.Conv1D(conv1_input_shape, conv1_output_shape, conv1_w, conv1_b)
-print(conv1)
+print(conv1_w)
 
 max_pooling1_input_shape = conv1_output_shape
 max_pooling1_output_shape = (24, 16)
