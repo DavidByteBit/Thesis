@@ -77,6 +77,8 @@ class Dense(Layer):
         def _(i):
             output[i] = self.activation(np.dot(input, self.w[i]) + self.b[i])
 
+        print(output)
+
         return output
 
 
@@ -112,6 +114,8 @@ class MaxPooling1D(Layer):
 
             output[j][i] = max(val)
 
+        print(output)
+
         return output
 
 
@@ -132,11 +136,11 @@ class Conv1D(Layer):
         kernels = self.kernels
         kernels_bias = self.kernel_bias
         k_width = self.kernel_w
-        print(k_width)
+        # print(k_width)
         output_width = len(input) - k_width + 1
         output = sfix.Tensor((output_width, self.filters))
-        print("first time")
-        print(output)
+        # print("first time")
+        # print(output)
 
         @for_range_opt((output_width, self.filters))
         def _(i, j):
