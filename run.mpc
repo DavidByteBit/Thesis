@@ -33,3 +33,5 @@ conv2_b.assign_all(0)
 dense1_w.assign_all(0)
 dense1_b.assign_all(0)
 
+a = sfix.get_input_from(0)
+
