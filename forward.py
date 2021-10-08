@@ -63,7 +63,7 @@ class Dense(Layer):
 
         output = sfix.Array(self.output_shape)
 
-        @for_range_opt(len(self.w_shape))
+        @for_range_opt(self.w_shape)
         def _(i):
             output[i] = self.activation(np.dot(input, self.w[i]) + self.b[i])
 
