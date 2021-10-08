@@ -51,6 +51,18 @@ class Dense(Layer):
 
         self.activation = activation
 
+    # TODO only works for flattening 2d to 1d
+    def flatten(self, input):
+        size = self.input_shape[0] * self.input_shape[1]
+        arr = sfix.Array(size)
+
+        @for_range(len(input[0]))
+        def _(i):
+            @for_range(len(input[1]))
+            def _(j):
+                arr[i * len(input[1]) + j] = input[i][j]
+
+
 
     def compute(self, input):
 
@@ -96,8 +108,9 @@ class MaxPooling1D(Layer):
 
 class Conv1D(Layer):
 
-    def __init__(self, input_shape, output_shape, kernels, stride=None):
+    def __init__(self, input_shape, output_shape, kernels, kernel_bias, stride=None):
         super(Conv1D, self).__init__(input_shape, output_shape)
+        self.kernel_bias = kernel_bias
         self.kernels = kernels  # multi dimensioned because of multiple filters
         self.filters = len(kernels)  # size
         self.kernel_w = len(kernels[0])  # prev filters_dim or input height
@@ -108,13 +121,14 @@ class Conv1D(Layer):
 
     def compute(self, input):
         kernels = self.kernels
+        kernels_bias = self.kernel_bias
         k_width = self.kernel_w
         output_width = len(input) - k_width + 1
         output = sfix.Tensor(output_width, self.filters)
 
         @for_range_opt(output_width, self.filters)
         def _(i, j):
-            output[i] = np.dot(input[i:k_width + i], kernels[j])
+            output[i] = np.dot(input[i:k_width + i], kernels[j]) + kernels_bias[j]
 
         return output
 
