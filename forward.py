@@ -122,8 +122,8 @@ class Conv1D(Layer):
         self.kernel_bias = kernel_bias
         self.kernels = kernels  # multi dimensioned because of multiple filters
         self.filters = len(kernels)  # size
-        self.kernel_w = len(kernels[0])  # prev filters_dim or input height
-        self.kernel_h = len(kernels[0][0])
+        self.kernel_w = len(kernels[0][0])  # prev filters_dim or input height
+        self.kernel_h = len(kernels[0])
 
         # TODO: padding, stride
 
