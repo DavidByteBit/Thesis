@@ -172,7 +172,7 @@ def flatten(x):
 
     new_array = sfix.Array(w * h)
 
-    @for_range_opt(w, h)
+    @for_range_opt((w, h))
     def _(i,j):
         new_array[i * h + j] = x[i][j]
 
