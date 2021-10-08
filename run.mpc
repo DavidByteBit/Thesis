@@ -97,7 +97,7 @@ dense1 = forward.Dense(dense1_input, dense1_output, dense1_w, dense1_b, relu)
 
 dense2_input = dense1_output
 dense2_output = 100
-dense2 = forward.Dense(dense2_input, dense2_output, 0, 0, relu)
+dense2 = forward.Dense(dense2_input, dense2_output, [0], [0], relu)
 
 # def __init__(self, input_shape, output_shape, kernels, stride=None):
 
