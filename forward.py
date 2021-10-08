@@ -43,10 +43,11 @@ class Dense(Layer):
     def __init__(self, input_shape, output_shape, w, b, activation):
         super(Dense, self).__init__(input_shape, output_shape)
 
-        self.w_shape = w.shape
+        # TODO should be shape, but Arrays have no shape...
+        self.w_shape = len(w)
         self.w = w
 
-        self.b_shape = b.shape
+        self.b_shape = len(b)
         self.b = b
 
         self.activation = activation
