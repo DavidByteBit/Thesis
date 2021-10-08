@@ -129,16 +129,27 @@ class Conv1D(Layer):
 
         @for_range_opt((output_width, self.filters))
         def _(i, j):
-            print(self.kernel_w)
             val = sfix.Matrix(k_width, self.kernel_w)
             @for_range_opt(k_width)
             def _(k):
                 val[k] = input[i + k]
             print(kernels[j])
-            output[i] = sfix.dot_product(val, kernels[j]) + kernels_bias[j]
+            output[i] = dot_2d(val, kernels[j]) + kernels_bias[j]
 
         return output
 
+
+def dot_2d(x,y):
+    res = sfix.Array(1)
+    res[0] = sfix(0)
+
+    @for_range(len(x))
+    def _(i):
+        @for_range(len(x[0]))
+        def _(j):
+            res[0] += x[i][j] * y[i][j]
+
+    return res[0]
 
 def softmax(x):
     e_x = np.exp(x)
