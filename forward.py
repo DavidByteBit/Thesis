@@ -77,6 +77,8 @@ class Dense(Layer):
         def _(i):
             output[i] = self.activation(np.dot(input, self.w[i]) + self.b[i])
 
+        print("dense")
+
         print(output)
 
         return output
@@ -98,12 +100,6 @@ class MaxPooling1D(Layer):
         filter_dim = self.filter_dim
         output_width = len(input) // width
 
-        print("maxpooling")
-        print(filter_dim)
-        print(output_width)
-        print(width)
-        print("maxpooling")
-
         # assert output_width, filter_dim == self.output_shape
 
         output = sfix.Tensor((output_width, filter_dim))
@@ -120,6 +116,7 @@ class MaxPooling1D(Layer):
 
             output[j][i] = max(val)
 
+        print("maxpool")
         print(output)
 
         return output
@@ -158,6 +155,8 @@ class Conv1D(Layer):
                     val[k][e] = input[i + k][e]
             print(kernels[j])
             output[i] = dot_2d(val, kernels[j]) + kernels_bias[j]
+
+        print("conv")
 
         print(output)
 
