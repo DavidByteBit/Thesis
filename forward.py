@@ -24,15 +24,18 @@ class Layers:
         for l in self.layers:
             #print(processed_input)
             processed_input = l.compute(processed_input)
+            if l.flatten_after:
+                processed_input = flatten(processed_input)
 
         return processed_input
 
 
 class Layer:
 
-    def __init__(self, input_shape, output_shape):
+    def __init__(self, input_shape, output_shape, flatten_after=False):
         self.input_shape = input_shape
         self.output_shape = output_shape
+        self.flatten_after = flatten_after
 
     def get_shapes(self):
         return self.input_shape, self.output_shape
@@ -51,19 +54,6 @@ class Dense(Layer):
         self.b = b
 
         self.activation = activation
-
-    # TODO only works for flattening 2d to 1d
-    def flatten(self, input):
-        size = self.input_shape[0] * self.input_shape[1]
-        arr = sfix.Array(size)
-
-        @for_range(len(input[0]))
-        def _(i):
-            @for_range(len(input[1]))
-            def _(j):
-                arr[i * len(input[1]) + j] = input[i][j]
-
-
 
     def compute(self, input):
 
@@ -174,6 +164,17 @@ def max(x):
 
     return max_value[0]
 
+
+# TODO only works with 2d to 1
+def flatten(x):
+    w = len(x)
+    h = len(x[0])
+
+    new_array = sfix.Array(w * h)
+
+    @for_range_opt(w, h)
+    def _(i,j):
+        new_array[i * h + j] = x[i][j]
 
 
 def transpose(x, shape):
