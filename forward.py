@@ -89,7 +89,7 @@ class MaxPooling1D(Layer):
 
     def compute(self, input):
 
-        input_T = transpose(input, (self.input_shape[1], self.input_shape[0]))
+        # input_T = transpose(input, (self.input_shape[1], self.input_shape[0]))
 
         print_ln("Checkpoint 1")
 
