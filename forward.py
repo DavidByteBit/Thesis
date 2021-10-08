@@ -129,12 +129,12 @@ class Conv1D(Layer):
 
         @for_range_opt((output_width, self.filters))
         def _(i, j):
-            print(self.filters)
-            val = sfix.Matrix(k_width, self.filters)
+            print(self.kernel_w)
+            val = sfix.Matrix(k_width, self.kernel_w)
             @for_range_opt(k_width)
             def _(k):
                 val[k] = input[i + k]
-            output[i] = sfix.dot(val, kernels[j]) + kernels_bias[j]
+            output[i] = sfix.dot_product(val, kernels[j]) + kernels_bias[j]
 
         return output
 
