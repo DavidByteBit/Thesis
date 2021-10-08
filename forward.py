@@ -132,6 +132,7 @@ class Conv1D(Layer):
         kernels = self.kernels
         kernels_bias = self.kernel_bias
         k_width = self.kernel_w
+        print(k_width)
         output_width = len(input) - k_width + 1
         output = sfix.Tensor((output_width, self.filters))
         print("first time")
