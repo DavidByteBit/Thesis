@@ -99,6 +99,19 @@ dense2_input = dense1_output
 dense2_output = 100
 dense2 = forward.Dense(dense2_input, dense2_output, [0], [0], relu)
 
+layers.add_layer(conv1)
+layers.add_layer(max1)
+layers.add_layer(conv2)
+layers.add_layer(max2)
+layers.add_layer(dense1)
+layers.add_layer(dense2)
+
+input = sfix.Tensor((50,12)).assign_all(0)
+
+layers.forward(input)
+
+
+
 # def __init__(self, input_shape, output_shape, kernels, stride=None):
 
 
