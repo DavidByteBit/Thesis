@@ -99,7 +99,7 @@ dense2_input = dense1_output
 dense2_output = 100
 dense2 = forward.Dense(dense2_input, dense2_output, None, None, relu)
 
-def __init__(self, input_shape, output_shape, kernels, stride=None):
+# def __init__(self, input_shape, output_shape, kernels, stride=None):
 
 
 # print_ln("%s", conv1_w.reveal_nested())
