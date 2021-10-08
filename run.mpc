@@ -26,12 +26,12 @@ conv2_b = sfix.Array(128)
 dense1_w = sfix.Tensor((100, 256))
 dense1_b = sfix.Array(100)
 
-conv1_w.assign_all(0)
-conv1_b.assign_all(0)
-conv2_w.assign_all(0)
-conv2_b.assign_all(0)
-dense1_w.assign_all(0)
-dense1_b.assign_all(0)
+# conv1_w.assign_all(0)
+# conv1_b.assign_all(0)
+# conv2_w.assign_all(0)
+# conv2_b.assign_all(0)
+# dense1_w.assign_all(0)
+# dense1_b.assign_all(0)
 
 @for_range(16*12*2)
 def _(i):
@@ -41,21 +41,21 @@ def _(i):
 def _(i):
     conv1_b[i] = sfix.get_input_from(0)
 
-# @for_range(128*16*8)
-# def _(i):
-#     conv2_w[i][i//128][i//128*16] = sfix.get_input_from(0)
-#
-# @for_range(128)
-# def _(i):
-#     conv2_b[i] = sfix.get_input_from(0)
+@for_range(128*16*8)
+def _(i):
+    conv2_w[i % 128][i//128][i//128*16] = sfix.get_input_from(0)
 
-# @for_range(100*256)
-# def _(i):
-#     conv1_w[i][i//256] = sfix.get_input_from(0)
-#
-# @for_range(100)
-# def _(i):
-#     conv1_w[i] = sfix.get_input_from(0)
+@for_range(128)
+def _(i):
+    conv2_b[i] = sfix.get_input_from(0)
+
+@for_range(100*256)
+def _(i):
+    conv1_w[i % 100][i//256] = sfix.get_input_from(0)
+
+@for_range(100)
+def _(i):
+    conv1_w[i] = sfix.get_input_from(0)
 
 print_ln("%s", conv1_w.reveal_nested())
 
