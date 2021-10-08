@@ -49,13 +49,13 @@ def _(i):
 def _(i):
     conv2_b[i] = sfix.get_input_from(0)
 
-@for_range(100*256)
-def _(i):
-    conv1_w[i][i//256] = sfix.get_input_from(0)
-
-@for_range(100)
-def _(i):
-    conv1_w[i] = sfix.get_input_from(0)
+# @for_range(100*256)
+# def _(i):
+#     conv1_w[i][i//256] = sfix.get_input_from(0)
+#
+# @for_range(100)
+# def _(i):
+#     conv1_w[i] = sfix.get_input_from(0)
 
 print_ln("%s", conv1_w.reveal_nested())
 
