@@ -94,7 +94,7 @@ class MaxPooling1D(Layer):
         filter_dim = self.filter_dim
         output_width = len(input) // width
 
-        # assert output_width, filter_dim == self.output_shape
+        assert output_width, filter_dim == self.output_shape
 
         output = sfix.Tensor((output_width, filter_dim))
 
@@ -135,6 +135,9 @@ class Conv1D(Layer):
         k_width = self.kernel_w
         # print(k_width)
         output_width = len(input) - k_width + 1
+
+        assert output_width, self.filters == self.output_shape
+
         output = sfix.Tensor((output_width, self.filters))
         # print("first time")
         # print(output)
