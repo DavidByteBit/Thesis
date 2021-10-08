@@ -98,7 +98,13 @@ class MaxPooling1D(Layer):
         filter_dim = self.filter_dim
         output_width = len(input) // width
 
-        assert output_width, filter_dim == self.output_shape
+        print("maxpooling")
+        print(filter_dim)
+        print(output_width)
+        print(width)
+        print("maxpooling")
+
+        # assert output_width, filter_dim == self.output_shape
 
         output = sfix.Tensor((output_width, filter_dim))
 
