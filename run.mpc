@@ -90,11 +90,11 @@ conv2 = forward.Conv1D(conv1_input_shape, conv1_output_shape, conv2_w, conv2_b)
 
 max_pooling2_input_shape = conv2_output_shape
 max_pooling2_output_shape = (2, 128)
-max2 = forward.MaxPooling1D(conv1_input_shape, conv1_output_shape, 8, 128)
+max2 = forward.MaxPooling1D(conv1_input_shape, conv1_output_shape, 8, 128, flatten_after=True)
 
 dense1_input = max_pooling2_output_shape
 dense1_output = 256
-dense1 = forward.Dense(dense1_input, dense1_output, dense1_w, dense1_b, relu)
+# dense1 = forward.Dense(dense1_input, dense1_output, dense1_w, dense1_b, relu)
 
 dense2_input = dense1_output
 dense2_output = 100
