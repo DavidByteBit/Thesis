@@ -132,7 +132,7 @@ def _(i):
 
 # print_ln("%s", input.reveal_nested())
 
-# features = layers.forward(input)
+features = layers.forward(input)
 
 # print_ln("%s", features.reveal_nested())
 
