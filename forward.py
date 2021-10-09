@@ -118,7 +118,7 @@ class MaxPooling1D(Layer):
 
 class Conv1D(Layer):
 
-    def __init__(self, input_shape, output_shape, kernels, kernel_bias, stride=None, activation, flatten_after=False):
+    def __init__(self, input_shape, output_shape, kernels, kernel_bias, activation, stride=None, flatten_after=False):
         super(Conv1D, self).__init__(input_shape, output_shape, flatten_after)
         self.activation = activation
         self.kernel_bias = kernel_bias
