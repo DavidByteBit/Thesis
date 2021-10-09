@@ -182,7 +182,7 @@ def flatten(x):
 
     @for_range_opt((w, h))
     def _(i,j):
-        new_array[i * h + j] = x[i][j]
+        new_array[i + j * w] = x[i][j]
 
     return new_array
 
