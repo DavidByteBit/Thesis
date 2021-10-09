@@ -213,7 +213,7 @@ def dot_2d(x,y):
         @for_range(len(x[0]))
         def _(j):
             prod = x[i][j] * y[i][j]
-            print_ln(prod)
+            print_ln("%s", prod)
             res[0] += prod
 
     return res[0]
