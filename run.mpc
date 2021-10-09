@@ -70,7 +70,7 @@ def _(i):
 
 def relu(x):
     a = (x > 0)
-    return (1-a) * x + a * x
+    return a * x
 
 
 layers = forward.Layers()
