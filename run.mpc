@@ -123,16 +123,14 @@ def _(i):
     def _(j):
         input[i][j] = sfix.get_input_from(1)
 
+# print_ln("%s", conv1_w.reveal_nested())
+# print_ln("%s", conv1_b.reveal_nested())
+# print_ln("%s", conv2_w.reveal_nested())
+# print_ln("%s", conv2_b.reveal_nested())
+# print_ln("%s", dense1_w.reveal_nested())
+# print_ln("%s", dense1_b.reveal_nested())
 
-
-print_ln("%s", conv1_w.reveal_nested())
-print_ln("%s", conv1_b.reveal_nested())
-print_ln("%s", conv2_w.reveal_nested())
-print_ln("%s", conv2_b.reveal_nested())
-print_ln("%s", dense1_w.reveal_nested())
-print_ln("%s", dense1_b.reveal_nested())
-
-print_ln("%s", input.reveal_nested())
+# print_ln("%s", input.reveal_nested())
 
 # features = layers.forward(input)
 
