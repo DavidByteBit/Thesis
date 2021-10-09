@@ -155,7 +155,7 @@ class Conv1D(Layer):
                 def _(e):
                     val[k][e] = input[k][e + j]  # optimize by doing things in-place?
             # print(kernels[j])
-            output[j] = self.activation(dot_2d(val, kernels[i]) + kernels_bias[i])
+            output[i][j] = self.activation(dot_2d(val, kernels[i]) + kernels_bias[i])
 
         # print("conv")
 
@@ -215,7 +215,6 @@ def dot_2d(x,y):
             prod = x[i][j] * y[i][j]
             res[0] += prod
 
-    print_ln("%s", res[0].reveal())
     return res[0]
 
 
