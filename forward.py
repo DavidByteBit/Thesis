@@ -215,7 +215,7 @@ def dot_2d(x,y):
             prod = x[i][j] * y[i][j]
             res[0] += prod
 
-    print_ln("%s", res[0])
+    print_ln("%s", res[0].reveal())
     return res[0]
 
 
