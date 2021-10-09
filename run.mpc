@@ -123,21 +123,14 @@ def _(i):
     def _(j):
         input[i][j] = sfix.get_input_from(1)
 
-conv1_w = sfix.Tensor((16, 12, 2))
-conv1_b = sfix.Array(16)
 
-conv2_w = sfix.Tensor((128, 16, 8))
-conv2_b = sfix.Array(128)
 
-dense1_w = sfix.Tensor((100, 256))
-dense1_b = sfix.Array(100)
-
-print_ln("%s", input.conv1_w())
-print_ln("%s", input.conv1_b())
-print_ln("%s", input.conv2_w())
-print_ln("%s", input.conv2_b())
-print_ln("%s", input.dense1_w())
-print_ln("%s", input.dense1_b())
+print_ln("%s", conv1_w.reveal_nested())
+print_ln("%s", conv1_b.reveal_nested())
+print_ln("%s", conv2_w.reveal_nested())
+print_ln("%s", conv2_b.reveal_nested())
+print_ln("%s", dense1_w.reveal_nested())
+print_ln("%s", dense1_b.reveal_nested())
 
 print_ln("%s", input.reveal_nested())
 
