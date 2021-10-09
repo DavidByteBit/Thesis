@@ -34,12 +34,7 @@ class Layers:
 class Layer:
 
     def __init__(self, input_shape, output_shape, flatten_after=False):
-        self.input_shape = input_shape
-        self.output_shape = output_shape
         self.flatten_after = flatten_after
-
-    def get_shapes(self):
-        return self.input_shape, self.output_shape
 
 
 class Dense(Layer):
@@ -90,35 +85,31 @@ class MaxPooling1D(Layer):
 
     def compute(self, input):
 
-        print(input)
-
-        # input_T = transpose(input, (self.input_shape[1], self.input_shape[0]))
-
-        print_ln("Checkpoint 1")
+        # print(input)
 
         width = self.width
         filter_dim = self.filter_dim
-        output_width = len(input) // width
+        output_width = len(input[0]) // width
 
-        print_ln("Checkpoint 2")
+        # print_ln("Checkpoint 2")
 
-        assert output_width, filter_dim == self.output_shape
+        # assert filter_dim, output_width == self.output_shape
 
-        print_ln("Checkpoint 3")
-        output = sfix.Tensor((output_width, filter_dim))
-        print_ln("Checkpoint 4")
-        @for_range_opt([filter_dim, output_width//2])
+        # print_ln("Checkpoint 3")
+        output = sfix.Tensor((filter_dim, output_width))
+        # print_ln("Checkpoint 4")
+        @for_range_opt((filter_dim, output_width))
         def _(i, j):
             # TODO currently, for Tensors where the width does not divide the input dim properly,
             #  we ignore values fix this
             val = sfix.Array(width)
             @for_range_opt(width)
             def _(k):
-                val[k] = input[i][i * width + k]
+                val[k] = input[i][j * width + k]
 
-            output[j][i] = max(val)
+            output[i][j] = max(val)
 
-        print("maxpool")
+        # print("maxpool")
         print(output)
 
         return output
@@ -138,32 +129,32 @@ class Conv1D(Layer):
 
 
     def compute(self, input):
-        print(input)
+        # print(input)
 
         kernels = self.kernels
         kernels_bias = self.kernel_bias
         k_width = self.kernel_w
         # print(k_width)
-        output_width = len(input) - k_width + 1
+        output_width = len(input[0]) - k_width + 1
 
-        assert output_width, self.filters == self.output_shape
+        # assert self.filters, output_width == self.output_shape
 
-        output = sfix.Tensor((output_width, self.filters))
+        output = sfix.Tensor((self.filters, output_width))
         # print("first time")
         # print(output)
 
-        @for_range_opt((output_width, self.filters))
+        @for_range_opt((self.filters, output_width))
         def _(i, j):
-            val = sfix.Matrix(k_width, self.kernel_w)
-            @for_range_opt(k_width)
+            val = sfix.Matrix(self.kernel_h, self.kernel_w)
+            @for_range_opt(self.kernel_h)
             def _(k):
-                @for_range_opt(self.kernel_h)
+                @for_range_opt(self.kernel_w)
                 def _(e):
-                    val[k][e] = input[i + k][e]
-            print(kernels[j])
-            output[i] = dot_2d(val, kernels[j]) + kernels_bias[j]
+                    val[k][e] = input[k][e + j]  # optimize by doing things in-place?
+            # print(kernels[j])
+            output[j] = dot_2d(val, kernels[i]) + kernels_bias[i]
 
-        print("conv")
+        # print("conv")
 
         print(output)
 
@@ -194,16 +185,6 @@ def flatten(x):
         new_array[i * h + j] = x[i][j]
 
     return new_array
-
-
-def transpose(x, shape):
-    x_T = sfix.Tensor(shape)
-
-    @for_range(shape[0])
-    def _(i):
-        @for_range(shape[1])
-        def _(j):
-            x_T[i][j] = x[j][i]
 
 
 def dot_1d(x,y):
