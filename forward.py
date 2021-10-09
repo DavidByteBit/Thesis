@@ -213,18 +213,12 @@ def dot_2d(x,y):
         @for_range(len(x[0]))
         def _(j):
             prod = x[i][j] * y[i][j]
-            print_ln("%s", prod.reveal())
             res[0] += prod
 
+    print_ln("%s", res[0])
     return res[0]
 
-def softmax(x):
-    e_x = np.exp(x)
-    return e_x / e_x.sum()
 
-
-def relu(x):
-    return max(0.0, x)
 
 
 
