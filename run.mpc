@@ -73,11 +73,18 @@ def relu(x):
     return a * x
 
 
+def hard_sigmoid(x):
+    lt_25 = x < -2.5
+    gt_25 = x > 2.5
+    return gt_25 + (1 - lt_25) * (1 - gt_25) * (0.2 * x + 0.5)
+
+
+
 layers = forward.Layers()
 
 conv1_input_shape = (50,12)
 conv1_output_shape = (49, 16)
-conv1 = forward.Conv1D(conv1_input_shape, conv1_output_shape, conv1_w, conv1_b)
+conv1 = forward.Conv1D(conv1_input_shape, conv1_output_shape, conv1_w, conv1_b, hard_sigmoid)
 print(conv1_w)
 
 max_pooling1_input_shape = conv1_output_shape
@@ -86,7 +93,7 @@ max1 = forward.MaxPooling1D(conv1_input_shape, conv1_output_shape, 2, 16)
 
 conv2_input_shape = max_pooling1_output_shape
 conv2_output_shape = (17, 128)
-conv2 = forward.Conv1D(conv1_input_shape, conv1_output_shape, conv2_w, conv2_b)
+conv2 = forward.Conv1D(conv1_input_shape, conv1_output_shape, conv2_w, conv2_b, hard_sigmoid)
 
 max_pooling2_input_shape = conv2_output_shape
 max_pooling2_output_shape = (2, 128)
@@ -104,7 +111,7 @@ layers.add_layer(conv1)
 layers.add_layer(max1)
 layers.add_layer(conv2)
 layers.add_layer(max2)
-layers.add_layer(dense1)
+# layers.add_layer(dense1)
 # layers.add_layer(dense2)
 
 # input = sfix.Tensor((12, 50)).assign_all(1)

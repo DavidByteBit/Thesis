@@ -118,8 +118,9 @@ class MaxPooling1D(Layer):
 
 class Conv1D(Layer):
 
-    def __init__(self, input_shape, output_shape, kernels, kernel_bias, stride=None, flatten_after=False):
+    def __init__(self, input_shape, output_shape, kernels, kernel_bias, stride=None, activation, flatten_after=False):
         super(Conv1D, self).__init__(input_shape, output_shape, flatten_after)
+        self.activation = activation
         self.kernel_bias = kernel_bias
         self.kernels = kernels  # multi dimensioned because of multiple filters
         self.filters = len(kernels)  # size
@@ -153,7 +154,7 @@ class Conv1D(Layer):
                 def _(e):
                     val[k][e] = input[k][e + j]  # optimize by doing things in-place?
             # print(kernels[j])
-            output[j] = dot_2d(val, kernels[i]) + kernels_bias[i]
+            output[j] = self.activation(dot_2d(val, kernels[i]) + kernels_bias[i])
 
         # print("conv")
 
