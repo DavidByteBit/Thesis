@@ -205,8 +205,8 @@ def dot_2d(x,y):
     # res = sfix.Array(1)
     # res[0] = sfix(0)
 
-    res = sint(0)
-    global res
+    global res_2d
+    res_2d = sint(0)
 
     # print(x[0])
     # print(y[0])
