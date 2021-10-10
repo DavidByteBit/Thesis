@@ -205,8 +205,8 @@ def dot_2d(x,y):
     res = sfix.Array(1)
     res[0] = sfix(0)
 
-    print(x[0])
-    print(y[0])
+    # print(x[0])
+    # print(y[0])
 
     assert len(x) == len(y)
     assert len(x[0]) == len(y[0])
