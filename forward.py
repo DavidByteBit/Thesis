@@ -206,6 +206,7 @@ def dot_2d(x,y):
     # res[0] = sfix(0)
 
     res = sint(0)
+    global res
 
     # print(x[0])
     # print(y[0])
