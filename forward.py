@@ -86,11 +86,12 @@ class MaxPooling1D(Layer):
         width = self.width
         filter_dim = self.filter_dim
         output_width = len(input[0]) // width
+        left_out_elements = len(input[0]) % width
 
         # assert filter_dim, output_width == self.output_shape
 
         output = sfix.Tensor((filter_dim, output_width))
-        @for_range_opt((filter_dim, output_width))
+        @for_range_opt((filter_dim, output_width - 1))
         def _(i, j):
             # TODO currently, for Tensors where the width does not divide the input dim properly,
             #  we ignore values fix this
@@ -100,6 +101,18 @@ class MaxPooling1D(Layer):
                 val[k] = input[i][j * width + k]
 
             output[i][j] = max(val)
+
+        @for_range_opt(filter_dim)
+        def _(i):
+            # TODO currently, for Tensors where the width does not divide the input dim properly,
+            #  we ignore values fix this
+            val = sfix.Array(width)
+
+            @for_range_opt(width + left_out_elements)
+            def _(k):
+                val[k] = input[i][(output_width - 1) * width + k]
+
+            output[i][(output_width - 1)] = max(val)
 
         # print("maxpool")
         print(output)
