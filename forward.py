@@ -208,14 +208,16 @@ def dot_2d(x,y):
     assert len(x) == len(y)
     assert len(x[0]) == len(y[0])
 
-    @for_range(len(x))
-    def _(i):
-        @for_range(len(x[0]))
-        def _(j):
-            prod = x[i][j] * y[i][j]
-            res[0] += prod
+    return sum(x * y)
 
-    return res[0]
+    # @for_range(len(x))
+    # def _(i):
+    #     @for_range(len(x[0]))
+    #     def _(j):
+    #         prod = x[i][j] * y[i][j]
+    #         res[0] += prod
+    #
+    # return res[0]
 
 
 
