@@ -111,7 +111,7 @@ layers.add_layer(conv1)
 layers.add_layer(max1)
 layers.add_layer(conv2)
 layers.add_layer(max2)
-# layers.add_layer(dense1)
+layers.add_layer(dense1)
 # layers.add_layer(dense2)
 
 # input = sfix.Tensor((12, 50)).assign_all(1)
@@ -134,7 +134,7 @@ def _(i):
 
 features = layers.forward(input)
 
-# print_ln("%s", features.reveal_nested())
+print_ln("%s", features.reveal_nested())
 
 
 
