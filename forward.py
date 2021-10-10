@@ -202,8 +202,10 @@ def dot_1d(x,y):
 
 
 def dot_2d(x,y):
-    res = sfix.Array(1)
-    res[0] = sfix(0)
+    # res = sfix.Array(1)
+    # res[0] = sfix(0)
+
+    res = sint(0)
 
     # print(x[0])
     # print(y[0])
@@ -211,15 +213,14 @@ def dot_2d(x,y):
     assert len(x) == len(y)
     assert len(x[0]) == len(y[0])
 
-    c = sfix.Tensor([len(x), len(x[0])])
-
     @for_range(len(x))
     def _(i):
-        c[i] = x[i] * y[i]
-        res[0] += sum(c[i])
+        global res
+        res += sum(x[i] * y[i])
 
+        # res[0] += sum(c[i])
 
-    return res[0]
+    return res
 
     # @for_range(len(x))
     # def _(i):
