@@ -211,7 +211,13 @@ def dot_2d(x,y):
     assert len(x) == len(y)
     assert len(x[0]) == len(y[0])
 
-    return sum(x * y)
+    a = sfix.MultiArray([len(x), len(x[0])])
+    b = sfix.MultiArray([len(x), len(x[0])])
+
+    a.assign(x)
+    b.assign(y)
+
+    return sum(a * b)
 
     # @for_range(len(x))
     # def _(i):
