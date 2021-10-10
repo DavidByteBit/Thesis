@@ -211,24 +211,24 @@ def dot_2d(x,y):
     assert len(x) == len(y)
     assert len(x[0]) == len(y[0])
 
-    c = sfix.Tensor([len(x), len(x[0])])
+    # c = sfix.Tensor([len(x), len(x[0])])
+    #
+    # @for_range(len(x))
+    # def _(i):
+    #     c[i] = x[i] * y[i]
+    #     res[0] += sum(c[i])
+    #
+    #
+    # return res[0]
 
     @for_range(len(x))
     def _(i):
-        c[i] = x[i] * y[i]
-        res[0] += sum(c[i])
-
+        @for_range(len(x[0]))
+        def _(j):
+            prod = x[i][j] * y[i][j]
+            res[0] += prod
 
     return res[0]
-
-    # @for_range(len(x))
-    # def _(i):
-    #     @for_range(len(x[0]))
-    #     def _(j):
-    #         prod = x[i][j] * y[i][j]
-    #         res[0] += prod
-    #
-    # return res[0]
 
 
 
