@@ -214,14 +214,14 @@ def dot_2d(x,y):
     assert len(x) == len(y)
     assert len(x[0]) == len(y[0])
 
+    c = sfix.Array(len(x[0]))
+
     @for_range(len(x))
     def _(i):
         # global res
-        res += sum(x[i] * y[i])
+        c[i].assign(sum(x[i] * y[i]))
 
-        # res[0] += sum(c[i])
-
-    return res
+    return sum(c)
 
     # @for_range(len(x))
     # def _(i):
