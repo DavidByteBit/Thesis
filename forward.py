@@ -219,7 +219,7 @@ def dot_2d(x,y):
     @for_range(len(x))
     def _(i):
         # global res
-        c[i].assign(sum(x[i] * y[i]))
+        c[i] = sum(x[i] * y[i])
 
     return sum(c)
 
