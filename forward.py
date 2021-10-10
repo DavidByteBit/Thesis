@@ -216,6 +216,7 @@ def dot_2d(x,y):
     @for_range_opt(len(x))
     def _(i):
         c[i] = x[i] * y[i]
+        c_sum = sum(c[i])
 
     return sum(c)
 
