@@ -32,8 +32,8 @@ dense1_b = sfix.Array(100)
 dense1_w.input_from(0)
 dense1_b.input_from(0)
 
-sfix.get_input_from(0)
-# sfix.get_input_from(1)
+# sfix.get_input_from(0)
+sfix.get_input_from(1)
 
 
 # @for_range(16)
