@@ -205,21 +205,18 @@ def dot_2d(x,y):
     res = sfix.Array(1)
     res[0] = sfix(0)
 
-    print(x)
-    print(y)
+    print(x[0])
+    print(y[0])
 
     assert len(x) == len(y)
     assert len(x[0]) == len(y[0])
 
-    a = sfix.Tensor([len(x), len(x[0])])
-    b = sfix.Tensor([len(x), len(x[0])])
+    c = sfix.Tensor([len(x), len(x[0])])
 
-    a.assign(x)
-    b.assign(y)
+    @for_range_opt(len(x))
+    def _(i):
 
-    c = a * b
-
-    return sum(c)
+        c[i] = x[i] * y[i]
 
     # @for_range(len(x))
     # def _(i):
