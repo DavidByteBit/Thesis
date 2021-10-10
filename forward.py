@@ -145,7 +145,7 @@ class Conv1D(Layer):
             val = sfix.Matrix(self.kernel_h, self.kernel_w)
             @for_range_opt(self.kernel_h)
             def _(k):
-                val[k] = input[k][self.kernel_w * j: self.kernel_w * (j + 1)]
+                val[k] = input[k].get_part_vector(self.kernel_w * j, self.kernel_w * (j + 1))
                 # @for_range_opt(self.kernel_w)
                 # def _(e):
                 #     val[k][e] = input[k][e + j]  # optimize by doing things in-place?
