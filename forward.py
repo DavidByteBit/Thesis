@@ -213,7 +213,7 @@ def dot_2d(x,y):
 
     c = sfix.Tensor([len(x), len(x[0])])
 
-    @for_range_opt(len(x))
+    @for_range(len(x))
     def _(i):
         c[i] = x[i] * y[i]
         res[0] += sum(c[i])
