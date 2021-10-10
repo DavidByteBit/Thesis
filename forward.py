@@ -191,14 +191,17 @@ def flatten(x):
 
 
 def dot_1d(x,y):
-    res = sfix.Array(1)
-    res[0] = sfix(0)
 
-    @for_range(len(x))
-    def _(i):
-        res[0] += x[i] * y[i]
+    return sum(x * y)
 
-    return res[0]
+    # res = sfix.Array(1)
+    # res[0] = sfix(0)
+    #
+    # @for_range(len(x))
+    # def _(i):
+    #     res[0] += x[i] * y[i]
+    #
+    # return res[0]
 
 
 def dot_2d(x,y):
