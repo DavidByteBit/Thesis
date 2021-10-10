@@ -211,7 +211,13 @@ def dot_2d(x,y):
     assert len(x) == len(y)
     assert len(x[0]) == len(y[0])
 
-    c = x * y
+    a = sfix.Tensor([len(x), len(x[0])])
+    b = sfix.Tensor([len(x), len(x[0])])
+
+    a.assign(x)
+    b.assign(y)
+
+    c = a * b
 
     return sum(c)
 
