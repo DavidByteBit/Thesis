@@ -33,44 +33,39 @@ dense1_w.input_from(0)
 dense1_b.input_from(0)
 
 
-
-
-
-
-
-@for_range(16)
-def _(i):
-    @for_range(12)
-    def _(j):
-        @for_range(2)
-        def _(k):
-            conv1_w[i][j][k] = sfix.get_input_from(0)
-
-@for_range(16)
-def _(i):
-    conv1_b[i] = sfix.get_input_from(0)
-
-@for_range(128)
-def _(i):
-    @for_range(16)
-    def _(j):
-        @for_range(8)
-        def _(k):
-            conv2_w[i][j][k] = sfix.get_input_from(0)
-
-@for_range(128)
-def _(i):
-    conv2_b[i] = sfix.get_input_from(0)
-
-@for_range(100)
-def _(i):
-    @for_range(256)
-    def _(j):
-        dense1_w[i][j] = sfix.get_input_from(0)
-
-@for_range(100)
-def _(i):
-    dense1_b[i] = sfix.get_input_from(0)
+# @for_range(16)
+# def _(i):
+#     @for_range(12)
+#     def _(j):
+#         @for_range(2)
+#         def _(k):
+#             conv1_w[i][j][k] = sfix.get_input_from(0)
+#
+# @for_range(16)
+# def _(i):
+#     conv1_b[i] = sfix.get_input_from(0)
+#
+# @for_range(128)
+# def _(i):
+#     @for_range(16)
+#     def _(j):
+#         @for_range(8)
+#         def _(k):
+#             conv2_w[i][j][k] = sfix.get_input_from(0)
+#
+# @for_range(128)
+# def _(i):
+#     conv2_b[i] = sfix.get_input_from(0)
+#
+# @for_range(100)
+# def _(i):
+#     @for_range(256)
+#     def _(j):
+#         dense1_w[i][j] = sfix.get_input_from(0)
+#
+# @for_range(100)
+# def _(i):
+#     dense1_b[i] = sfix.get_input_from(0)
 
 
 def relu(x):
