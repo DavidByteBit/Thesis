@@ -65,9 +65,9 @@ class Dense(Layer):
         @for_range_opt(self.w_shape)
         def _(i):
 
-            print("dense stuff")
-            print(self.w[i])
-            print(input)
+            # print("dense stuff")
+            # print(self.w[i])
+            # print(input)
             output[i] = self.activation(dot_1d(input, self.w[i]) + self.b[i])
 
         print("dense")
@@ -87,19 +87,13 @@ class MaxPooling1D(Layer):
 
     def compute(self, input):
 
-        # print(input)
-
         width = self.width
         filter_dim = self.filter_dim
         output_width = len(input[0]) // width
 
-        # print_ln("Checkpoint 2")
-
         # assert filter_dim, output_width == self.output_shape
 
-        # print_ln("Checkpoint 3")
         output = sfix.Tensor((filter_dim, output_width))
-        # print_ln("Checkpoint 4")
         @for_range_opt((filter_dim, output_width))
         def _(i, j):
             # TODO currently, for Tensors where the width does not divide the input dim properly,
@@ -216,7 +210,7 @@ def dot_2d(x,y):
 
     # c = sfix.Array(len(x[0]))
 
-    @for_range(len(x))
+    @for_range_parallel(len(x), len(x))
     def _(i):
         c = sum(x[i] * y[i])
         res[0] += c
