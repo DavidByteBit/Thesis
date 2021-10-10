@@ -62,12 +62,8 @@ class Dense(Layer):
 
         output = sfix.Array(self.output_shape)
 
-        @for_range_opt(self.w_shape)
+        @for_range_parallel(self.w_shape, self.w_shape)
         def _(i):
-
-            # print("dense stuff")
-            # print(self.w[i])
-            # print(input)
             output[i] = self.activation(dot_1d(input, self.w[i]) + self.b[i])
 
         print("dense")
@@ -145,10 +141,9 @@ class Conv1D(Layer):
             val = sfix.Matrix(self.kernel_h, self.kernel_w)
             @for_range_opt(self.kernel_h)
             def _(k):
-                val[k] = input[k].get_part_vector(self.kernel_w * j, self.kernel_w * (j + 1))
-                # @for_range_opt(self.kernel_w)
-                # def _(e):
-                #     val[k][e] = input[k][e + j]  # optimize by doing things in-place?
+                @for_range_opt(self.kernel_w)
+                def _(e):
+                    val[k][e] = input[k][e + j]  # optimize by doing things in-place?
             # print(kernels[j])
             output[i][j] = self.activation(dot_2d(val, kernels[i]) + kernels_bias[i])
 
