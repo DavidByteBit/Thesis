@@ -219,7 +219,7 @@ def dot_2d(x,y):
         res[0] += sum(c[i])
 
 
-    return sum(c)
+    return res[0]
 
     # @for_range(len(x))
     # def _(i):
