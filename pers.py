@@ -21,7 +21,7 @@ def Euclid(x):
     return ret_x
 
 
-def personalization(feature_extractor, source, target, label_space):
+def personalization(layers, source, target, label_space):
 
     source_size = len(source[0])
     target_size = len(target[0])
@@ -32,7 +32,7 @@ def personalization(feature_extractor, source, target, label_space):
 
     data_size = target_size + source_size
 
-    output_dim = feature_extractor.get_final_dim
+    output_dim = layers.get_final_dim
 
     # Data and labels run parallel to each other
     data = sfix.MultiArray([data_size, window_size, feat_size])
@@ -69,7 +69,7 @@ def personalization(feature_extractor, source, target, label_space):
         @for_range(data_size)  # Line 3
         def _(i):
             eq_res = (sint(j) == labels[i])  # Line 4
-            feat_res = feature_extractor(data[i])  # Line 5
+            feat_res = layers.forward(data[i])  # Line 5
 
             scalar = sint.Array(output_dim)
             @for_range(output_dim)
@@ -98,8 +98,8 @@ def personalization(feature_extractor, source, target, label_space):
     return weight_matrix  # Line 13
 
 
-def infer(feature_extractor, weight_matrix, unlabled_data):
-    data_feature = feature_extractor(unlabled_data)  # Line 1
+def infer(layers, weight_matrix, unlabled_data):
+    data_feature = layers.forward(unlabled_data)  # Line 1
 
     rankings = sfix.Array(len(data_feature))
 
