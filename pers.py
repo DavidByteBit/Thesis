@@ -35,6 +35,7 @@ def personalization(layers, source, target, total_amount_of_data, label_space):
     data_size = total_amount_of_data
 
     output_dim = layers.get_final_dim
+    print(output_dim)
     print("checkpoint 2")
     # Data and labels run parallel to each other
     data = MultiArray([data_size, window_size, feat_size], sfix)
