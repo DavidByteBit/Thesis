@@ -85,14 +85,15 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
                 scalar[k] = eq_res
 
             print("checkpoint 10")
-            num_intermediate = scalar * feat_res  # Line 6
+            num_intermediate1 = scalar * feat_res  # Line 6
+            num_intermediate2 = sfix.Array(output_dim)
+
+            num_intermediate2.assign(num_intermediate1, 0)
 
             dem[0] += eq_res  # Line 7
             @for_range(output_dim)
             def _(k):
-                num[k] += 2
-                temp = num_intermediate[k]
-                num[k] += num_intermediate[k]  # line 8
+                num[k] += num_intermediate2[k]  # line 8
 
         dem_extended = sint.Array(len(num))
         for k in range(len(num)):  # Line 9
