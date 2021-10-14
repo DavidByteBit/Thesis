@@ -97,7 +97,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
 
         dem_extended = sfix.Array(len(num))
         for k in range(len(num)):  # Line 9
-            dem_extended[k] = dem
+            dem_extended[k] = dem[0]
 
         W_intermediate_1 = sfix.Array(len(num))
         for k in range(len(num)):  # Line 10
