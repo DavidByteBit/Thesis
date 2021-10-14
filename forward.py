@@ -31,6 +31,9 @@ class Layers:
 
         return processed_input
 
+    def get_final_dim(self):
+        return self.layers[-1].output_shape
+
 
 class Layer:
 

@@ -22,47 +22,65 @@ def Euclid(x):
 
 
 def personalization(feature_extractor, source, target, label_space):
-    cols = 2
 
     source_size = len(source[0])
     target_size = len(target[0])
+
+    window_size = len(source[0][0])
+
+    feat_size = len(source[0][0][0])
+
     data_size = target_size + source_size
 
+    output_dim = feature_extractor.get_final_dim
+
     # Data and labels run parallel to each other
-    data = sfix.Matrix(data_size, cols)
+    data = sfix.MultiArray([data_size, window_size, feat_size])
     labels = sint.Array(data_size)
 
     # Line 1
-    @for_range_opt(source_size)
+    @for_range(source_size)
     def _(i):
-        for j in range(cols):
-            data[i][j] = source[0][i][j]
+        @for_range(window_size)
+        def _(j):
+            @for_range(feat_size)
+            def _(k):
+                data[i][j][k] = source[0][i][j][k]
         labels[i] = source[1][i]
 
-    @for_range_opt(target_size)
+    @for_range(target_size)
     def _(i):
-        for j in range(cols):
-            data[i + source_size][j] = target[0][i][j]
+        @for_range(window_size)
+        def _(j):
+            @for_range(feat_size)
+            def _(k):
+                data[i + source_size][j][k] = target[0][i][j][k]
         labels[i + source_size] = target[1][i]
 
-    weight_matrix = sfix.Matrix(len(label_space), cols)
 
-    @for_range_opt(len(label_space))  # Line 2
+    weight_matrix = sfix.Matrix(len(label_space), feat_size)
+
+
+    @for_range(len(label_space))  # Line 2
     def _(j):
-        num = sint.Array(cols)  # Length may need to be dynamic.
-        dem = sint(0)
-        for i in range(data_size):  # Line 3
+        num = sint.Array(output_dim)  # Length may need to be dynamic.
+        dem = sint.Array(1)
+        dem[0] = sint(0)
+        @for_range(data_size)  # Line 3
+        def _(i):
             eq_res = (sint(j) == labels[i])  # Line 4
             feat_res = feature_extractor(data[i])  # Line 5
 
-            scalar = sint.Array(len(feat_res))
-            for k in range(len(feat_res)):
+            scalar = sint.Array(output_dim)
+            @for_range(output_dim)
+            def _(k):
                 scalar[k] = eq_res
 
             num_intermediate = scalar * feat_res  # Line 6
 
-            dem += eq_res  # Line 7
-            for k in range(len(num)):
+            dem[0] += eq_res  # Line 7
+            @for_range(output_dim)
+            def _(k):
                 num[k] += num_intermediate[k]  # line 8
 
         dem_extended = sint.Array(len(num))
