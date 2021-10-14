@@ -68,7 +68,7 @@ layers.add_layer(dense1)
 input = sfix.Tensor((12, 50))
 input.input_from(1)
 
-feature_extractor = input.forward
+feature_extractor = layers.forward
 
 w_matrix = pers.personalization(feature_extractor, (input, sint(0)), (input, sint(0)), [0, 1])
 res = pers.infer(feature_extractor, w_matrix, input)
