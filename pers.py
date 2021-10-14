@@ -84,7 +84,10 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
                 scalar[k] = eq_res
 
             print("checkpoint 10")
+            print(scalar)
+            print(feat_res)
             num_intermediate = scalar * feat_res  # Line 6
+            print(num_intermediate)
 
             dem[0] += eq_res  # Line 7
             @for_range(output_dim)
