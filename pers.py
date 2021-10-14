@@ -23,6 +23,8 @@ def Euclid(x):
 
 def personalization(layers, source, target, label_space):
 
+    print_ln("checkpoint 1")
+
     source_size = len(source[0])
     target_size = len(target[0])
 
@@ -33,11 +35,11 @@ def personalization(layers, source, target, label_space):
     data_size = target_size + source_size
 
     output_dim = layers.get_final_dim
-
+    print_ln("checkpoint 2")
     # Data and labels run parallel to each other
     data = MultiArray([data_size, window_size, feat_size], sfix)
     labels = sint.Array(data_size)
-
+    print_ln("checkpoint 3")
     # Line 1
     @for_range(source_size)
     def _(i):
@@ -48,6 +50,7 @@ def personalization(layers, source, target, label_space):
                 data[i][j][k] = source[0][i][j][k]
         labels[i] = source[1][i]
 
+    print_ln("checkpoint 4")
     @for_range(target_size)
     def _(i):
         @for_range(window_size)
@@ -57,25 +60,28 @@ def personalization(layers, source, target, label_space):
                 data[i + source_size][j][k] = target[0][i][j][k]
         labels[i + source_size] = target[1][i]
 
-
+    print_ln("checkpoint 5")
     weight_matrix = sfix.Matrix(len(label_space), feat_size)
-
+    print_ln("checkpoint 6")
 
     @for_range(len(label_space))  # Line 2
     def _(j):
         num = sint.Array(output_dim)  # Length may need to be dynamic.
         dem = sint.Array(1)
         dem[0] = sint(0)
+        print_ln("checkpoint 7")
         @for_range(data_size)  # Line 3
         def _(i):
+            print_ln("checkpoint 8")
             eq_res = (sint(j) == labels[i])  # Line 4
             feat_res = layers.forward(data[i])  # Line 5
-
+            print_ln("checkpoint 9")
             scalar = sint.Array(output_dim)
             @for_range(output_dim)
             def _(k):
                 scalar[k] = eq_res
 
+            print_ln("checkpoint 10")
             num_intermediate = scalar * feat_res  # Line 6
 
             dem[0] += eq_res  # Line 7
