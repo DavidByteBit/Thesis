@@ -65,7 +65,7 @@ layers.add_layer(conv2)
 layers.add_layer(max2)
 layers.add_layer(dense1)
 
-input = sfix.Tensor((12, 50))
+input = sfix.Tensor((1, 12, 50))
 input.input_from(1)
 
 w_matrix = pers.personalization(layers, (input, sint(0)), (input, sint(0)), [0, 1])
