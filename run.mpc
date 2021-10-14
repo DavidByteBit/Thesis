@@ -72,7 +72,9 @@ fake_labels = sint.Array(1)
 fake_labels.assign_all(1)
 input.input_from(1)
 
-label_space = sint.Array(0, 1)
+label_space = sint.Array(2)
+label_space[0] = sint(0)
+label_space[1] = sint(1)
 
 w_matrix = pers.personalization(layers, (input, fake_labels), (input, fake_labels), total_amount_of_data, label_space)
 res = pers.infer(layers, w_matrix, input[0])
