@@ -1,6 +1,8 @@
 from Compiler import mpc_math
 from Compiler import ml
 
+from Compiler.types import *
+from Compiler.library import *
 
 def dot_product(a, b):
     assert (len(a) == len(b))
@@ -27,8 +29,8 @@ def personalization(feature_extractor, source, target, label_space):
     data_size = target_size + source_size
 
     # Data and labels run parallel to each other
-    data = Matrix(data_size, cols, sfix)
-    labels = Array(data_size, sint)
+    data = sfix.Matrix(data_size, cols)
+    labels = sint.Array(data_size)
 
     # Line 1
     @for_range_opt(source_size)
@@ -43,17 +45,17 @@ def personalization(feature_extractor, source, target, label_space):
             data[i + source_size][j] = target[0][i][j]
         labels[i + source_size] = target[1][i]
 
-    weight_matrix = Matrix(len(label_space), cols, sfix)
+    weight_matrix = sfix.Matrix(len(label_space), cols)
 
     @for_range_opt(len(label_space))  # Line 2
     def _(j):
-        num = Array(cols, sint)  # Length may need to be dynamic.
+        num = sint.Array(cols)  # Length may need to be dynamic.
         dem = sint(0)
         for i in range(data_size):  # Line 3
             eq_res = (sint(j) == labels[i])  # Line 4
             feat_res = feature_extractor(data[i])  # Line 5
 
-            scalar = Array(len(feat_res), sint)
+            scalar = sint.Array(len(feat_res))
             for k in range(len(feat_res)):
                 scalar[k] = eq_res
 
@@ -63,11 +65,11 @@ def personalization(feature_extractor, source, target, label_space):
             for k in range(len(num)):
                 num[k] += num_intermediate[k]  # line 8
 
-        dem_extended = Array(len(num), sint)
+        dem_extended = sint.Array(len(num))
         for k in range(len(num)):  # Line 9
             dem_extended[k] = dem
 
-        W_intermediate_1 = Array(len(num), sfix)
+        W_intermediate_1 = sfix.Array(len(num))
         for k in range(len(num)):  # Line 10
             W_intermediate_1[k] = num[k] / dem_extended[k]
         W_intermediate_2 = Euclid(W_intermediate_1)  # Line 11
@@ -81,7 +83,7 @@ def personalization(feature_extractor, source, target, label_space):
 def infer(feature_extractor, weight_matrix, unlabled_data):
     data_feature = feature_extractor(unlabled_data)  # Line 1
 
-    rankings = Array(len(data_feature), sfix)
+    rankings = sfix.Array(len(data_feature))
 
     @for_range_opt(len(data_feature))  # Line 2
     def _(j):
