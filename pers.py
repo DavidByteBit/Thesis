@@ -47,7 +47,9 @@ def personalization(layers, source, target, label_space):
         def _(j):
             @for_range(feat_size)
             def _(k):
+                print("checkpoint 3.5")
                 data[i][j][k] = source[0][i][j][k]
+                print("checkpoint 3.75")
         labels[i] = source[1][i]
 
     print("checkpoint 4")
