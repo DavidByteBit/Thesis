@@ -69,6 +69,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
     @for_range(len(label_space))  # Line 2
     def _(j):
         num = sint.Array(output_dim)  # Length may need to be dynamic.
+        num.assign_all(0)
         dem = sint.Array(1)
         dem[0] = sint(0)
         print("checkpoint 7")
@@ -84,10 +85,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
                 scalar[k] = eq_res
 
             print("checkpoint 10")
-            print(scalar)
-            print(feat_res)
             num_intermediate = scalar * feat_res  # Line 6
-            print(num_intermediate)
 
             dem[0] += eq_res  # Line 7
             @for_range(output_dim)
