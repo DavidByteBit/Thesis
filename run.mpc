@@ -6,8 +6,7 @@ from Compiler.types import *
 from Compiler.library import *
 
 from Compiler import forward
-from pers import personalization
-from pers import infer
+from Compiler import pers
 
 import forward
 
@@ -71,8 +70,8 @@ input.input_from(1)
 
 feature_extractor = input.forward
 
-w_matrix = personalization(feature_extractor, (input, sint(0)), (input, sint(0)), [0, 1])
-res = infer(feature_extractor, w_matrix, input)
+w_matrix = pers.personalization(feature_extractor, (input, sint(0)), (input, sint(0)), [0, 1])
+res = pers.infer(feature_extractor, w_matrix, input)
 
 print_ln("%s", res.reveal_nested())
 
