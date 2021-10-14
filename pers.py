@@ -21,7 +21,7 @@ def Euclid(x):
     return ret_x
 
 
-def personalization(layers, source, target, total_amount_of_data, label_space):
+def personalization(layers, source, target, total_amount_of_data, output_dim, label_space):
 
     print("checkpoint 1")
 
@@ -34,7 +34,6 @@ def personalization(layers, source, target, total_amount_of_data, label_space):
 
     data_size = total_amount_of_data
 
-    output_dim = layers.get_final_dim
     print(output_dim)
     print("checkpoint 2")
     # Data and labels run parallel to each other

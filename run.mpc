@@ -76,7 +76,7 @@ label_space = sint.Array(2)
 label_space[0] = sint(0)
 label_space[1] = sint(1)
 
-w_matrix = pers.personalization(layers, (input, fake_labels), (input, fake_labels), total_amount_of_data, label_space)
+w_matrix = pers.personalization(layers, (input, fake_labels), (input, fake_labels), total_amount_of_data, dense1_output, label_space)
 res = pers.infer(layers, w_matrix, input[0])
 
 print_ln("%s", res.reveal_nested())
