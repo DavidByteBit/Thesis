@@ -31,6 +31,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
     window_size = len(source[0][0])
 
     feat_size = len(source[0][0][0])
+    print(feat_size)
 
     data_size = total_amount_of_data
 
