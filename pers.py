@@ -35,7 +35,7 @@ def personalization(layers, source, target, label_space):
     output_dim = layers.get_final_dim
 
     # Data and labels run parallel to each other
-    data = sfix.MultiArray([data_size, window_size, feat_size])
+    data = MultiArray([data_size, window_size, feat_size], sfix)
     labels = sint.Array(data_size)
 
     # Line 1
