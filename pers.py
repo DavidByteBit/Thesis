@@ -68,10 +68,10 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
 
     @for_range(len(label_space))  # Line 2
     def _(j):
-        num = sint.Array(output_dim)  # Length may need to be dynamic.
-        num.assign_all(0)
-        dem = sint.Array(1)
-        dem[0] = sint(0)
+        num = sfix.Array(output_dim)  # Length may need to be dynamic.
+        num.assign_all()
+        dem = sfix.Array(1)
+        dem[0] = sfix(0)
         print("checkpoint 7")
         @for_range(data_size)  # Line 3
         def _(i):
@@ -79,7 +79,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
             eq_res = (sint(j) == labels[i])  # Line 4
             feat_res = layers.forward(data[i])  # Line 5
             print("checkpoint 9")
-            scalar = sint.Array(output_dim)
+            scalar = sfix.Array(output_dim)
             @for_range(output_dim)
             def _(k):
                 scalar[k] = eq_res
@@ -95,7 +95,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
             def _(k):
                 num[k] += num_intermediate[k]  # line 8
 
-        dem_extended = sint.Array(len(num))
+        dem_extended = sfix.Array(len(num))
         for k in range(len(num)):  # Line 9
             dem_extended[k] = dem
 
