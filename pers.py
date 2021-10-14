@@ -69,7 +69,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
     @for_range(len(label_space))  # Line 2
     def _(j):
         num = sfix.Array(output_dim)  # Length may need to be dynamic.
-        num.assign_all()
+        num.assign_all(0)
         dem = sfix.Array(1)
         dem[0] = sfix(0)
         print("checkpoint 7")
