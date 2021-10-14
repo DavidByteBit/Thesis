@@ -6,16 +6,10 @@ from Compiler.types import *
 from Compiler.library import *
 
 from Compiler import forward
+from pers import personalization
+from pers import infer
 
 import forward
-
-
-# (16, 12, 2)
-# (16,)
-# (128, 16, 8)
-# (128,)
-# (100, 256)
-# (100,)
 
 conv1_w = sfix.Tensor((16, 12, 2))
 conv1_b = sfix.Array(16)
@@ -66,26 +60,21 @@ dense1_input = 256
 dense1_output = 100
 dense1 = forward.Dense(dense1_input, dense1_output, dense1_w, dense1_b, relu)
 
-# dense2_input = dense1_output
-# dense2_output = 100
-# dense2 = forward.Dense(dense2_input, dense2_output, [0], [0], relu)
-
 layers.add_layer(conv1)
 layers.add_layer(max1)
 layers.add_layer(conv2)
 layers.add_layer(max2)
 layers.add_layer(dense1)
-# layers.add_layer(dense2)
 
-# input = sfix.Tensor((12, 50)).assign_all(1)
 input = sfix.Tensor((12, 50))
 input.input_from(1)
 
-# @for_range(12)
-# def _(i):
-#     @for_range(50)
-#     def _(j):
-#         input[i][j] = sfix.get_input_from(1)
+feature_extractor = input.forward
+
+w_matrix = personalization(feature_extractor, (input, sint(0)), (input, sint(0)), [0, 1])
+res = infer(feature_extractor, w_matrix, input)
+
+print_ln("%s", res.reveal_nested())
 
 # print_ln("%s", conv1_w.reveal_nested())
 # print_ln("%s", conv1_b.reveal_nested())
@@ -96,16 +85,10 @@ input.input_from(1)
 
 # print_ln("%s", input.reveal_nested())
 
-features = layers.forward(input)
-
-print_ln("%s", features.reveal_nested())
 
 
+# features = layers.forward(input)
+#
+# print_ln("%s", features.reveal_nested())
 
-# def __init__(self, input_shape, output_shape, kernels, stride=None):
-
-
-# print_ln("%s", conv1_w.reveal_nested())
-
-# a = sfix.get_input_from(0)
 
