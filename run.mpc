@@ -66,11 +66,13 @@ layers.add_layer(max2)
 layers.add_layer(dense1)
 
 input = sfix.Tensor((1, 12, 50))
+total_amount_of_data = len(input) + len(input)
+
 fake_labels = sint.Array(1)
 fake_labels.assign_all(1)
 input.input_from(1)
 
-w_matrix = pers.personalization(layers, (input, fake_labels), (input, fake_labels), [0, 1])
+w_matrix = pers.personalization(layers, (input, fake_labels), (input, fake_labels), total_amount_of_data, [0, 1])
 res = pers.infer(layers, w_matrix, input)
 
 print_ln("%s", res.reveal_nested())
