@@ -64,7 +64,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
         labels[i + source_size] = target[1][i]
 
     print("checkpoint 5")
-    weight_matrix = sfix.Matrix(len(label_space), feat_size)
+    weight_matrix = sfix.Matrix(len(label_space), output_dim)
     print("checkpoint 6")
 
     @for_range(len(label_space))  # Line 2
@@ -96,16 +96,18 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
             def _(k):
                 num[k] += num_intermediate[k]  # line 8
 
-        dem_extended = sfix.Array(len(num))
-        for k in range(len(num)):  # Line 9
-            dem_extended[k] = dem[0]
+        dem_extended = sfix.Array(output_dim)
+        dem_extended.assign_all(dem[0])  # Line 9
 
-        W_intermediate_1 = sfix.Array(len(num))
-        for k in range(len(num)):  # Line 10
+        W_intermediate_1 = sfix.Array(output_dim)
+
+        @for_range(output_dim)  # Line 10
+        def _(k):
             W_intermediate_1[k] = num[k] / dem_extended[k]
+
         W_intermediate_2 = Euclid(W_intermediate_1)  # Line 11
 
-        for k in range(len(num)):  # Line 12
+        for k in range(output_dim):  # Line 12
             weight_matrix[j][k] = W_intermediate_1[k] / W_intermediate_2
 
     return weight_matrix  # Line 13
