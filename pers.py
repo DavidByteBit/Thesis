@@ -23,8 +23,6 @@ def Euclid(x):
 
 def personalization(layers, source, target, total_amount_of_data, output_dim, label_space):
 
-    print("checkpoint 1")
-
     source_size = len(source[0])
     target_size = len(target[0])
 
@@ -35,8 +33,6 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
 
     data_size = total_amount_of_data
 
-    print(output_dim)
-    print("checkpoint 2")
     # Data and labels run parallel to each other
     data = MultiArray([data_size, window_size, feat_size], sfix)
     labels = sint.Array(data_size)
@@ -48,12 +44,9 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
         def _(j):
             @for_range(feat_size)
             def _(k):
-                print("checkpoint 3.5")
                 data[i][j][k] = source[0][i][j][k]
-                print("checkpoint 3.75")
         labels[i] = source[1][i]
 
-    print("checkpoint 4")
     @for_range(target_size)
     def _(i):
         @for_range(window_size)
@@ -63,9 +56,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
                 data[i + source_size][j][k] = target[0][i][j][k]
         labels[i + source_size] = target[1][i]
 
-    print("checkpoint 5")
     weight_matrix = sfix.Matrix(len(label_space), output_dim)
-    print("checkpoint 6")
 
     @for_range(len(label_space))  # Line 2
     def _(j):
@@ -73,19 +64,15 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
         num.assign_all(0)
         dem = sfix.Array(1)
         dem[0] = sfix(0)
-        print("checkpoint 7")
         @for_range(data_size)  # Line 3
         def _(i):
-            print("checkpoint 8")
             eq_res = (sint(j) == labels[i])  # Line 4
             feat_res = layers.forward(data[i])  # Line 5
-            print("checkpoint 9")
             scalar = sfix.Array(output_dim)
             @for_range(output_dim)
             def _(k):
                 scalar[k] = eq_res
 
-            print("checkpoint 10")
             num_intermediate = sfix.Array(output_dim)
             @for_range(output_dim)
             def _(k):
