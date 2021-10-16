@@ -35,7 +35,7 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
     # Data and labels run parallel to each other
     data = MultiArray([data_size, window_size, feat_size], sfix)
     labels = sint.Array(data_size)
-    print("checkpoint 3")
+
     # Line 1
     @for_range(source_size)
     def _(i):
