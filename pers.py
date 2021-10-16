@@ -6,7 +6,6 @@ from Compiler.library import *
 
 def dot_product(a, b):
     assert (len(a) == len(b))
-
     return sum(a * b)
 
 
@@ -101,13 +100,15 @@ def personalization(layers, source, target, total_amount_of_data, output_dim, la
 
 
 def infer(layers, weight_matrix, unlabled_data):
-    data_feature = layers.forward(unlabled_data).Transpose  # Line 1
+    data_feature = layers.forward(unlabled_data)  # Line 1
 
-    rankings = sfix.Array(len(data_feature))
+    label_space_size = len(weight_matrix)
 
-    @for_range_opt(len(data_feature))  # Line 2
+    rankings = sfix.Array(label_space_size)
+
+    @for_range_opt(label_space_size)  # Line 2
     def _(j):
-        rankings[j] = dot_product(weight_matrix[j].Transpose, data_feature)  # Line 3
+        rankings[j] = dot_product(weight_matrix[j], data_feature)  # Line 3
 
     return ml.argmax(rankings)  # Line 4,5
 
