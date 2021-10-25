@@ -77,13 +77,13 @@ layers.add_layer(max2)
 layers.add_layer(dense1)
 
 # input = sfix.Tensor((1, 12, 50))
-source_data = sfix.Tensor((1, n_features, window_size))
-source_labels = sint.Array(1)
+source_data = sfix.Tensor((n_outputs, n_features, window_size))
+source_labels = sint.Array(n_outputs)
 source_data.input_from(0)
 source_labels.input_from(0)
 
-target_data = sfix.Tensor((1, n_features, window_size))
-target_labels = sint.Array(1)
+target_data = sfix.Tensor((n_outputs, n_features, window_size))
+target_labels = sint.Array(n_outputs)
 # TODO: Should be 1, will have to implement that. Have to let the target user decide partition
 target_data.input_from(0)
 target_labels.input_from(0)
