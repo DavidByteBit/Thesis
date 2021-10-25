@@ -5,25 +5,36 @@ from Compiler.mpc_math import sqrt
 from Compiler.types import *
 from Compiler.library import *
 
-from Compiler import forward
-from Compiler import pers
+from Compiler import forwardPass
+from Compiler import securePersonalizer
 
-import forward
+import json
 
-conv1_w = sfix.Tensor((16, 12, 2))
-conv1_b = sfix.Array(16)
+# @args - Public inputs
+settings_map = {"test_data_len": 1, "kshot": 1, "shapes": "[[16, 12, 2],[16],[128, 16, 8],[128],[50, 256],[50]]", "window_size": 50, "n_features": 12, "n_outputs": 7}
+
+shapes = json.loads(settings_map["shapes"])
+test_data_len = int(settings_map["test_data_len"])
+kshot = int(settings_map["kshot"])
+window_size = int(settings_map["window_size"])
+n_features = int(settings_map["n_features"])
+n_outputs = int(settings_map["n_outputs"])
+
+conv1_w = sfix.Tensor(shapes[0])
+conv1_b = sfix.Array(shapes[1][0])
 conv1_w.input_from(0)
 conv1_b.input_from(0)
 
-conv2_w = sfix.Tensor((128, 16, 8))
-conv2_b = sfix.Array(128)
+conv2_w = sfix.Tensor(shapes[2])
+conv2_b = sfix.Array(shapes[3][0])
 conv2_w.input_from(0)
 conv2_b.input_from(0)
 
-dense1_w = sfix.Tensor((100, 256))
-dense1_b = sfix.Array(100)
+dense1_w = sfix.Tensor(shapes[4])
+dense1_b = sfix.Array(shapes[5][0])
 dense1_w.input_from(0)
 dense1_b.input_from(0)
+
 
 def relu(x):
     a = (x > 0)
@@ -36,28 +47,28 @@ def hard_sigmoid(x):
     return gt_25 + (1 - lt_25) * (1 - gt_25) * (0.2 * x + 0.5)
 
 
-layers = forward.Layers()
+layers = forwardPass.Layers()
 
-conv1_input_shape = (50,12)
+conv1_input_shape = (50, 12)
 conv1_output_shape = (49, 16)
-conv1 = forward.Conv1D(conv1_input_shape, conv1_output_shape, conv1_w, conv1_b, hard_sigmoid)
+conv1 = forwardPass.Conv1D(conv1_input_shape, conv1_output_shape, conv1_w, conv1_b, hard_sigmoid)
 # print(conv1_w)
 
 max_pooling1_input_shape = conv1_output_shape
 max_pooling1_output_shape = (24, 16)
-max1 = forward.MaxPooling1D(conv1_input_shape, conv1_output_shape, 2, 16)
+max1 = forwardPass.MaxPooling1D(conv1_input_shape, conv1_output_shape, 2, 16)
 
 conv2_input_shape = max_pooling1_output_shape
 conv2_output_shape = (17, 128)
-conv2 = forward.Conv1D(conv1_input_shape, conv1_output_shape, conv2_w, conv2_b, hard_sigmoid)
+conv2 = forwardPass.Conv1D(conv1_input_shape, conv1_output_shape, conv2_w, conv2_b, hard_sigmoid)
 
 max_pooling2_input_shape = conv2_output_shape
 max_pooling2_output_shape = (2, 128)
-max2 = forward.MaxPooling1D(conv1_input_shape, conv1_output_shape, 8, 128, flatten_after=True)
+max2 = forwardPass.MaxPooling1D(conv1_input_shape, conv1_output_shape, 8, 128, flatten_after=True)
 
 dense1_input = 256
-dense1_output = 100
-dense1 = forward.Dense(dense1_input, dense1_output, dense1_w, dense1_b, relu)
+dense1_output = 50
+dense1 = forwardPass.Dense(dense1_input, dense1_output, dense1_w, dense1_b, relu)
 
 layers.add_layer(conv1)
 layers.add_layer(max1)
@@ -65,23 +76,43 @@ layers.add_layer(conv2)
 layers.add_layer(max2)
 layers.add_layer(dense1)
 
-input = sfix.Tensor((1, 12, 50))
-total_amount_of_data = len(input) + len(input)
+# input = sfix.Tensor((1, 12, 50))
+source_data = sfix.Tensor((kshot * n_outputs, n_features, window_size))
+source_labels = sint.Array(kshot * n_outputs)
+source_data.input_from(0)
+source_labels.input_from(0)
 
-fake_labels = sint.Array(1)
-fake_labels.assign_all(1)
-input.input_from(1)
+target_data = sfix.Tensor((kshot * n_outputs, n_features, window_size))
+target_labels = sint.Array(kshot * n_outputs)
+# TODO: Should be 1, will have to implement that. Have to let the target user decide partition
+target_data.input_from(0)
+target_labels.input_from(0)
 
-label_space = sint.Array(2)
-label_space[0] = sint(0)
-label_space[1] = sint(1)
+total_amount_of_data = 2 * n_outputs * kshot
 
-w_matrix = pers.personalization(layers, (input, fake_labels), (input, fake_labels), total_amount_of_data, dense1_output, label_space)
-res = pers.infer(layers, w_matrix, input[0])
+# fake_labels = sint.Array(1)
+# fake_labels.assign_all(1)
 
-print_ln("%s", w_matrix.reveal_nested())
+label_space = sint.Array(n_outputs)
+for i in range(n_outputs):
+    label_space[i] = sint(i)
+
+w_matrix = securePersonalizer.personalization(layers, (source_data, source_labels), (target_data, target_labels),
+                                              total_amount_of_data, dense1_output, label_space)
+
+
+test_data = sfix.Tensor((test_data_len, n_features, window_size))
+# test_labels = sint.Array(test_data_len)
+
+test_data.input_from(0)
+
+res = securePersonalizer.infer(layers, w_matrix, test_data, dense1_output)
+
+print_ln("@results")
 
 print_ln("%s", res.reveal())
+
+# print_ln("%s", w_matrix.reveal_nested())
 
 # print_ln("%s", conv1_w.reveal_nested())
 # print_ln("%s", conv1_b.reveal_nested())
@@ -93,9 +124,6 @@ print_ln("%s", res.reveal())
 # print_ln("%s", input.reveal_nested())
 
 
-
 # features = layers.forward(input)
 #
 # print_ln("%s", features.reveal_nested())
-
-
