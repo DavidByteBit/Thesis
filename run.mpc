@@ -77,18 +77,18 @@ layers.add_layer(max2)
 layers.add_layer(dense1)
 
 # input = sfix.Tensor((1, 12, 50))
-source_data = sfix.Tensor((kshot * n_outputs, n_features, window_size))
-source_labels = sint.Array(kshot * n_outputs)
+source_data = sfix.Tensor((1, n_features, window_size))
+source_labels = sint.Array(1)
 source_data.input_from(0)
 source_labels.input_from(0)
 
-target_data = sfix.Tensor((kshot * n_outputs, n_features, window_size))
-target_labels = sint.Array(kshot * n_outputs)
+target_data = sfix.Tensor((1, n_features, window_size))
+target_labels = sint.Array(1)
 # TODO: Should be 1, will have to implement that. Have to let the target user decide partition
 target_data.input_from(0)
 target_labels.input_from(0)
 
-total_amount_of_data = 2 * n_outputs * kshot
+total_amount_of_data = 2
 
 # fake_labels = sint.Array(1)
 # fake_labels.assign_all(1)
@@ -100,17 +100,10 @@ for i in range(n_outputs):
 w_matrix = securePersonalizer.personalization(layers, (source_data, source_labels), (target_data, target_labels),
                                               total_amount_of_data, dense1_output, label_space)
 
-
-test_data = sfix.Tensor((test_data_len, n_features, window_size))
 # test_labels = sint.Array(test_data_len)
 
-test_data.input_from(0)
 
-res = securePersonalizer.infer(layers, w_matrix, test_data, dense1_output)
-
-print_ln("@results")
-
-print_ln("%s", res.reveal())
+# res = securePersonalizer.infer(layers, w_matrix, test_data, dense1_output)
 
 # print_ln("%s", w_matrix.reveal_nested())
 
